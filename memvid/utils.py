@@ -15,6 +15,7 @@ import logging
 from tqdm import tqdm
 import base64
 import gzip
+from semantic_text_splitter import TextSplitter
 
 from .config import get_default_config, codec_parameters
 
@@ -242,24 +243,7 @@ def chunk_text(text: str, chunk_size: int = 500, overlap: int = 50) -> List[str]
     Returns:
         List of text chunks
     """
-    chunks = []
-    start = 0
-    
-    while start < len(text):
-        end = start + chunk_size
-        chunk = text[start:end]
-        
-        # Try to break at sentence boundary
-        if end < len(text):
-            last_period = chunk.rfind('.')
-            if last_period > chunk_size * 0.8:
-                end = start + last_period + 1
-                chunk = text[start:end]
-        
-        chunks.append(chunk.strip())
-        start = end - overlap
-    
-    return chunks
+    return TextSplitter.from_tiktoken_model("gpt-4o-mini", capacity=256)
 
 
 def save_index(index_data: Dict[str, Any], output_path: str):
