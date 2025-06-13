@@ -231,7 +231,7 @@ def batch_extract_and_decode(video_path: str, frame_numbers: List[int],
     return result
 
 
-def chunk_text(text: str, chunk_size: int = 500, overlap: int = 50) -> List[str]:
+def chunk_text(text: str, max_chunk_size: int = 256, overlap: int = 50) -> List[str]:
     """
     Split text into overlapping chunks
     
@@ -243,7 +243,7 @@ def chunk_text(text: str, chunk_size: int = 500, overlap: int = 50) -> List[str]
     Returns:
         List of text chunks
     """
-    return TextSplitter.from_tiktoken_model("gpt-4o-mini", capacity=256)
+    return TextSplitter.from_tiktoken_model("gpt-4o-mini", capacity=max_chunk_size, overlap=overlap)
 
 
 def save_index(index_data: Dict[str, Any], output_path: str):

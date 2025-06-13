@@ -49,7 +49,7 @@ def test_chunk_text():
     text = "This is a test. " * 50  # 800 characters
     
     # Test basic chunking
-    chunks = chunk_text(text, chunk_size=100, overlap=20)
+    chunks = chunk_text(text, max_chunk_size=100, overlap=20)
     assert len(chunks) > 1
     assert all(len(chunk) <= 120 for chunk in chunks)  # Allow for sentence boundaries
     
